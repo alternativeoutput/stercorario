@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { wakeupUser } from '../core/reducers/User';
+import { wakeupUser } from '../reducers/User';
 
 const mapStateToProps = state => (
     {});

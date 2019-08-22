@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import User from '../../components/User';
+import User from './User';
 import { addUser } from '../reducers/Table'
 import { wakeupUser } from '../reducers/Table'
 
