@@ -100,13 +100,13 @@ module.exports = (env, argv) => {
       new HtmlWebPackPlugin({
         template: "./public/index.html",
         filename: "./index.html",
-        // favicon: "./public/favicon-index.ico",
+        favicon: "./public/favicon.ico",
         chunks: ['index']
       }),
       new HtmlWebPackPlugin({
         template: "./public/index.html",
         filename: "./demo01.html",
-        // favicon: "./public/favicon-second.ico",
+        favicon: "./public/favicon.ico",
         chunks: ['demo01']
       }),
       new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
