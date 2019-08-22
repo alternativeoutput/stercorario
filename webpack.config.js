@@ -20,7 +20,7 @@ module.exports = (env, argv) => {
 
   return {
     entry: {
-      index: './src/indexMain.js',
+      index: './src/apps/yojne/indexMain.js',
       //      second: './src/second.js'
     },
     mode: 'production',

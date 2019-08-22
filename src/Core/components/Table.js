@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import User from './User';
-import { addUser } from '../reducers/Table'
-import { wakeupUser } from '../reducers/Table'
+import User from '../../components/User';
+import { addUser } from '../../reducers/Table'
+import { wakeupUser } from '../../reducers/Table'
 
 import { v4 as uuidv4 } from 'uuid'
 
