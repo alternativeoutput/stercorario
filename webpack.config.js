@@ -20,8 +20,8 @@ module.exports = (env, argv) => {
 
   return {
     entry: {
-      index: './src/apps/yojne/indexMain.js',
-      //      second: './src/second.js'
+        index: './src/apps/yojne/indexMain.js',
+        demo01: './src/apps/demo01/indexDemo01.js',
     },
     mode: 'production',
     output: {
@@ -103,12 +103,12 @@ module.exports = (env, argv) => {
         // favicon: "./public/favicon-index.ico",
         chunks: ['index']
       }),
-      // new HtmlWebPackPlugin({
-      //   template: "./public/second.html",
-      //   filename: "./second.html",
-      //   favicon: "./public/favicon-second.ico",
-      //   chunks: ['second']
-      // }),
+      new HtmlWebPackPlugin({
+        template: "./public/index.html",
+        filename: "./demo01.html",
+        // favicon: "./public/favicon-second.ico",
+        chunks: ['demo01']
+      }),
       new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
         PUBLIC_URL: publicUrl
       }),
