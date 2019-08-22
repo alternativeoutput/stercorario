@@ -20,8 +20,8 @@ module.exports = (env, argv) => {
 
   return {
     entry: {
-      index: './src/index.js',
-      second: './src/second.js'
+      index: './src/indexMain.js',
+      //      second: './src/second.js'
     },
     mode: 'production',
     output: {
@@ -100,15 +100,15 @@ module.exports = (env, argv) => {
       new HtmlWebPackPlugin({
         template: "./public/index.html",
         filename: "./index.html",
-        favicon: "./public/favicon-index.ico",
+        // favicon: "./public/favicon-index.ico",
         chunks: ['index']
       }),
-      new HtmlWebPackPlugin({
-        template: "./public/second.html",
-        filename: "./second.html",
-        favicon: "./public/favicon-second.ico",
-        chunks: ['second']
-      }),
+      // new HtmlWebPackPlugin({
+      //   template: "./public/second.html",
+      //   filename: "./second.html",
+      //   favicon: "./public/favicon-second.ico",
+      //   chunks: ['second']
+      // }),
       new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
         PUBLIC_URL: publicUrl
       }),
