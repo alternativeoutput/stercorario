@@ -1,5 +1,5 @@
-import { ADD_USER, WAKEUP_USER } from "../constants/action-types";
-import { bindActionAttrs } from '../store/bindIndexToActionCreators'
+import { ADD_USER, WAKEUP_USER } from "../../constants/action-types";
+import { bindActionAttrs } from '../../store/bindIndexToActionCreators'
 import { wakeupUser as wakeupUser_user } from './User'
 import { copy_user } from "./User"
 
