@@ -1,4 +1,4 @@
-import { WAKEUP_USER } from "../../constants/action-types"
+import { WAKEUP_USER } from "../../core/constants/action-types"
 
 export const wakeupUser = () => { console.log('wakeupUser fired'); return { type: WAKEUP_USER }; }
 
