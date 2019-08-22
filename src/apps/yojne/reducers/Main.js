@@ -1,6 +1,6 @@
 // src/js/reducers/index.js
 import { ADD_USER, WAKEUP_USER } from "../../../core/constants/action-types";
-import { bindActionAttrs } from '../../../store/bindIndexToActionCreators'
+import { bindActionAttrs } from '../../../core/store/bindIndexToActionCreators'
 import { wakeupUser as wakeupUser_table} from "../../../core/reducers/Table"
 import { addUser as addUser_table} from "../../../core/reducers/Table"
 import table_comp_reducer from "../../../core/reducers/Table"
