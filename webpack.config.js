@@ -20,10 +20,11 @@ module.exports = (env, argv) => {
 
   return {
     entry: {
-        main: './src/apps/main/indexMain.js',
+//        main: './src/apps/main/indexMain.js',
         demo01: './src/apps/demo01/indexMain.js',
         demo02: './src/apps/demo02/indexMain.js',
         demo03: './src/apps/demo03/indexMain.js',
+        demo04: './src/apps/demo04/indexMain.js',
     },
     mode: 'production',
     output: {
@@ -99,12 +100,12 @@ module.exports = (env, argv) => {
       hot: true
     },
     plugins: [
-      new HtmlWebPackPlugin({
-        template: "./public/index.html",
-        filename: "./index.html",
-        favicon: "./public/favicon.ico",
-        chunks: ['main']
-      }),
+      // new HtmlWebPackPlugin({
+      //   template: "./public/index.html",
+      //   filename: "./index.html",
+      //   favicon: "./public/favicon.ico",
+      //   chunks: ['main']
+      // }),
       new HtmlWebPackPlugin({
         template: "./public/demo.html",
         filename: "./demo01.html",
@@ -122,6 +123,12 @@ module.exports = (env, argv) => {
         filename: "./demo03.html",
         favicon: "./public/favicon.ico",
         chunks: ['demo03']
+      }),
+      new HtmlWebPackPlugin({
+        template: "./public/demo.html",
+        filename: "./index.html",
+        favicon: "./public/favicon.ico",
+        chunks: ['demo04']
       }),
       new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
         PUBLIC_URL: publicUrl
