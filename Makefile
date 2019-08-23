@@ -51,7 +51,6 @@ env:
 	@echo ". ./$(PROJ)-venv/bin/activate"
 
 build:
-	rm -rf ./dist
 	. ./$(PROJ)-venv/bin/activate && yarn build
 
 start:
