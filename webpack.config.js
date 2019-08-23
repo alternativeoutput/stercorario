@@ -98,13 +98,13 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new HtmlWebPackPlugin({
-        template: "./public/index.html",
+        template: "./public/demo.html",
         filename: "./demo02.html",
         favicon: "./public/favicon.ico",
         chunks: ['demo02']
       }),
       new HtmlWebPackPlugin({
-        template: "./public/index.html",
+        template: "./public/demo.html",
         filename: "./demo01.html",
         favicon: "./public/favicon.ico",
         chunks: ['demo01']
