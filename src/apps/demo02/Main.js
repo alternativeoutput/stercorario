@@ -14,7 +14,7 @@ class ConnectedApp extends Component {
         return (
                 <div className="App">
                 <header className="App-header">
-                <h1 className="App-title">Welcome to Yojne</h1>
+                <h1 className="App-title">Welcome to Yojne: Demo02</h1>
                 </header>
                 <div>
                 {this.props.table.map(

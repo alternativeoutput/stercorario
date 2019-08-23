@@ -20,8 +20,8 @@ module.exports = (env, argv) => {
 
   return {
     entry: {
-        index: './src/apps/yojne/indexMain.js',
-        demo01: './src/apps/demo01/indexDemo01.js',
+        demo01: './src/apps/demo01/indexMain.js',
+        demo02: './src/apps/demo02/indexMain.js',
     },
     mode: 'production',
     output: {
@@ -99,9 +99,9 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebPackPlugin({
         template: "./public/index.html",
-        filename: "./index.html",
+        filename: "./demo02.html",
         favicon: "./public/favicon.ico",
-        chunks: ['index']
+        chunks: ['demo02']
       }),
       new HtmlWebPackPlugin({
         template: "./public/index.html",
