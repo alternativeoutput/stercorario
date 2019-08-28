@@ -6,12 +6,27 @@ import './Main.css';
 // ChangeColor
 // Input: table ID
 
+class User extends React.PureComponent {
+  render () {
+    return (
+        <div>
+        <h3>User: {this.props.name} </h3>
+        </div>
+    );
+  }
+}
+
 class Table extends React.PureComponent {
   render () {
     console.log('Table here');
     return (
         <div>
-        <h3>Table {this.props.name}</h3>
+        <h2>Table {this.props.name}</h2>
+        <div>
+      {this.props.users.map((user, id) => (
+          <div>User: {user.name} </div>
+      ))}
+      </div>
         </div>
     );
   }
@@ -37,7 +52,9 @@ class Board extends React.PureComponent {
         <h1>Board</h1>
         {this.tables.map(
           function(table, id, arr) {
-            return (<Table key={id} id={id} name={table.name} users={this.users}/>);
+            var users = this.users.filter((item) => (item.table == id));
+            users.sort((a, b) => (a.pos > b.pos));
+            return (<Table key={id} id={id} name={table.name} users={users}/>);
           }, this)}
       </div>
     );
