@@ -1,34 +1,54 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Table from '../../core/components/Table';
-import { addUser, wakeupUser } from './reducers/Main'
 import './Main.css';
 
-const mapStateToProps = state => (
-    { table: state.table })
+// SitDown
+// WakeUp
+// ChangeColor
+// Input: table ID
 
-/*  {...tableDispatchProperties(tindex)(this.props.dispatch)} */
+class Table extends React.PureComponent {
+  render () {
+    console.log('Table here');
+    return (
+        <div>
+        <h3>Table {this.props.name}</h3>
+        </div>
+    );
+  }
+}
 
-class ConnectedApp extends Component {
+
+class Board extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.tables = [{id: 0, name: "Zer"},
+                  {id: 1, name: "Uno"},
+                  {id: 2, name: "Due"},
+                  {id: 3, name: "Tre"}];
+    this.users = [{id:0, name: "Pippo", table: null, pos: 0},
+                  {id:1, name: "Pluto", table: "1", pos: 1},
+                  {id:2, name: "Paperino", table: "1", pos: 0},
+                  {id:3, name: "Minnie", table: 2, pos: 0}];
+  }
+
+  render () {
+    return (
+        <div>
+        <h1>Board</h1>
+        {this.tables.map(
+          function(table, id, arr) {
+            return (<Table key={id} id={id} name={table.name} users={this.users}/>);
+          }, this)}
+      </div>
+    );
+  }
+}
+
+
+class App extends React.PureComponent {
     render() {
-        return (
-                <div className="App">
-                <header className="App-header">
-                <h1 className="App-title">Welcome to Yojne: Demo02</h1>
-                </header>
-                <div>
-                {this.props.table.map(
-                    (table, index) =>
-                        (<Table
-                         {...this.props.table[index]}
-                         wakeupUser={wakeupUser(index)}
-                         addUser={addUser(index)}
-                         />
-                        ))
-                }
-            </div></div>);
+        return <Board/>;
     }
 }
-const App = connect(mapStateToProps)(ConnectedApp);
 
 export default App;
