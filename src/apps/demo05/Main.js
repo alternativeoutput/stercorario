@@ -11,7 +11,6 @@ class User extends React.PureComponent {
     super(props);
     this.state = {color: props.color,
                   name: props.name };
-    props.set_user_back(this);
   }
 
   render () {
@@ -29,18 +28,13 @@ class User extends React.PureComponent {
 class Table extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.users_comp = [null, null, null, null, null];
-    this.handleClick = this.handleClick.bind(this);
-    this.setUser_gen = this.setUser_gen.bind(this);
-  }
+    this.users_comp = [React.createRef(),
+                       React.createRef(),
+                       React.createRef(),
+                       React.createRef(),
+                       React.createRef()];
 
-  setUser_gen(idx) {
-    var _idx = idx;
-    var _this = this;
-    return function(ctx) {
-      console.log("setUser(" + _idx + ")");
-      _this.users_comp[_idx] = ctx;
-    };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
@@ -49,7 +43,7 @@ class Table extends React.PureComponent {
     // }));
     console.log("handleClick fired");
     console.log(this.users_comp[0]);
-    this.users_comp[0].setState(
+    this.users_comp[0].current.setState(
         function(state, props){ console.log('updater'); console.log(state); return {...state, color: "#000000"}; });
   }
 
@@ -61,7 +55,7 @@ class Table extends React.PureComponent {
         <h2>Table {this.props.name}</h2>
         <div>
       {this.props.users.map((user, id) => (
-          <User key={user.id} name={user.name} color={user.color} set_user_back={this.setUser_gen(user.pos)}/>
+          <User key={user.id} name={user.name} color={user.color}  ref={this.users_comp[user.pos]}/>
       ))}
       </div>
         <button onClick={this.handleClick}>Clean</button>
@@ -73,18 +67,12 @@ class Table extends React.PureComponent {
 class Standup extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.users_comp = [null, null, null, null, null];
+    this.users_comp = [React.createRef(),
+                       React.createRef(),
+                       React.createRef(),
+                       React.createRef(),
+                       React.createRef()];
     this.handleClick = this.handleClick.bind(this);
-    this.setUser_gen = this.setUser_gen.bind(this);
-  }
-
-  setUser_gen(idx) {
-    var _idx = idx;
-    var _this = this;
-    return function(ctx) {
-      console.log("setUser_setState(" + _idx + ")");
-      _this.users_comp[_idx] = ctx;
-    };
   }
 
   handleClick() {
@@ -93,7 +81,7 @@ class Standup extends React.PureComponent {
     // }));
     console.log("handleClick fired");
     console.log(this.users_comp[0]);
-    this.users_comp[0].setState(
+    this.users_comp[0].current.setState(
       function(state, props){ console.log('updater'); console.log(state); return {...state, color: "#000000"}; });
   }
 
@@ -104,7 +92,7 @@ class Standup extends React.PureComponent {
         <h2>Standup</h2>
         <div>
       {this.props.users.map((user, id) => (
-          <User key={user.id} name={user.name} color={user.color} set_user_back={this.setUser_gen(user.pos)}/>
+          <User key={user.id} name={user.name} color={user.color} ref={this.users_comp[user.pos]}/>
       ))}
       </div>
         <button onClick={this.handleClick}>Clean</button>
