@@ -35,6 +35,16 @@ class Table extends React.PureComponent {
                        React.createRef()];
 
     this.handleClick = this.handleClick.bind(this);
+    this.setUser_gen = this.setUser_gen.bind(this);
+  }
+
+  setUser_gen(idx) {
+    let _idx = idx;
+    let _this = this;
+
+    return function(comp) {
+      _this.users_comp[_idx].current = comp;
+    }
   }
 
   handleClick() {
@@ -42,7 +52,7 @@ class Table extends React.PureComponent {
     //  acceso: !state.acceso
     // }));
     console.log("handleClick fired");
-    console.log(this.users_comp[0]);
+    console.log(this.users_comp);
     this.users_comp[0].current.setState(
         function(state, props){ console.log('updater'); console.log(state); return {...state, color: "#000000"}; });
   }
@@ -54,9 +64,9 @@ class Table extends React.PureComponent {
         <div style={style}>
         <h2>Table {this.props.name}</h2>
         <div>
-      {this.props.users.map((user, id) => (
-          <User key={user.id} name={user.name} color={user.color}  ref={this.users_comp[user.pos]}/>
-      ))}
+        {this.props.users.map(function (user, id) {
+          return (<User key={user.id} name={user.name} color={user.color}  ref={this.setUser_gen(user.pos)}/>);
+        }, this)}
       </div>
         <button onClick={this.handleClick}>Clean</button>
       </div>
@@ -80,7 +90,6 @@ class Standup extends React.PureComponent {
     //  acceso: !state.acceso
     // }));
     console.log("handleClick fired");
-    console.log(this.users_comp[0]);
     this.users_comp[0].current.setState(
       function(state, props){ console.log('updater'); console.log(state); return {...state, color: "#000000"}; });
   }
@@ -119,9 +128,11 @@ class Board extends React.PureComponent {
 
   render () {
     console.log("Board render");
+    var style = {paddingLeft: "32px"};
     return (
         <div>
         <h1>Board</h1>
+        <div style={style}>
         {this.tables.map(
           function(table, id, arr) {
             var users = this.users.filter((item) => (item.table == id));
@@ -129,7 +140,7 @@ class Board extends React.PureComponent {
             return (<Table key={id} id={id} name={table.name} users={users}/>);
           }, this)}
         <Standup users={this.users.filter((item) => (item.table == null))} />
-
+        </div>
       </div>
     );
   }
