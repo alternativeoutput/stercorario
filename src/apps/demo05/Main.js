@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Main.css';
 
-function print(arg) {
+function cl(arg) {
   console.log(arg);
 }
 
@@ -18,7 +18,7 @@ class User extends React.PureComponent {
   }
 
   render () {
-    console.log('User render');
+    cl('User render');
     var bgcol = { color: this.state.color };
     var style = {paddingLeft: "32px"};
     return (
@@ -31,7 +31,7 @@ class User extends React.PureComponent {
 
 class Table extends React.PureComponent {
   render () {
-    console.log('Table render');
+    cl('Table render');
     var style = {paddingLeft: "32px"};
     return (
         <div style={style}>
@@ -50,7 +50,7 @@ class Table extends React.PureComponent {
 
 class Standup extends React.PureComponent {
   render () {
-    console.log('Standup render');
+    cl('Standup render');
     return (
         <div>
         <h2>Standup</h2>
@@ -90,12 +90,12 @@ class Board extends React.PureComponent {
     return function(user_idx) {
       let _user_idx = user_idx;
 
-      console.log('first');
-      console.log(_user_idx);
+      cl('first');
+      cl(_user_idx);
 
       return function(comp) {
-        console.log('second');
-        console.log(_this);
+        cl('second');
+        cl(_this);
         _this.users[_user_idx].comp.current = comp;
       }
     }
@@ -106,17 +106,17 @@ class Board extends React.PureComponent {
     let _table_idx = table_idx;
 
     return function() {
-      console.log("handleTableClick fired " + _table_idx);
+      cl("handleTableClick fired " + _table_idx);
       var users = _this.users.filter((item) => (item.table == _table_idx));
       users.sort((a, b) => (a.pos > b.pos));
-      console.log(users);
+      cl(users);
       users[0].comp.current.setState(
-        function(state, props){ console.log('updater'); console.log(state); return {...state, color: "#000000"}; });
+        function(state, props){ cl('updater'); cl(state); return {...state, color: "#000000"}; });
     }
   }
 
   render () {
-    console.log("Board render");
+    cl("Board render");
     var style = {paddingLeft: "32px"};
     return (
         <div>
