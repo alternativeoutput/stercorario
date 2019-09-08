@@ -1,3 +1,22 @@
+REACT |
+------+
+  
+
+
+
+REDUX |
+------+
+
+  +-> STORE -subscribe->  VIEW  -dispatch->  ACTIONS  ->  REDUCERS  -+
+  |                                                                  |
+  +------------------------------------------------------------------+
+  
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
