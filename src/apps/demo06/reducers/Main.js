@@ -1,81 +1,140 @@
 // src/js/reducers/index.js
-import { ADD_USER, WAKEUP_USER } from "../../../core/constants/action-types";
-import { bindActionAttrs } from '../../../core/store/bindIndexToActionCreators'
-import { wakeupUser as wakeupUser_table} from "../../../core/reducers/Table"
-import { addUser as addUser_table} from "../../../core/reducers/Table"
-import table_comp_reducer from "../../../core/reducers/Table"
-
-import { copy_table } from "../../../core/reducers/Table"
-import { copy_user } from "../../../core/reducers/User"
+import { BLACK_FIRST_USER } from '../constants/action-types';
+import { bindActionAttrs } from '../../../core/store/bindIndexToActionCreators';
+import { blackFirstUser as blackFirstUser_table } from './Table';
+import React from 'react';
 
 const initialState = {
-    user: {'azz': {name: 'Alexander', _id: 'azz', key: 'azz'},
-           'izz': {name: 'Markus',    _id: 'izz', key: 'izz'},
-           'uzz': {name: 'Rudolph',   _id: 'uzz', key: 'uzz'}},
-    table: [{name: 'TabOne', user: [], key: "tazz"},
-            {name: 'TabTwo', user: ['azz', 'izz', 'uzz'], key: "tizz"},
-            {name: 'TabThree', user: [], key: "tuzz"}
-           ],
-    standup: {title: "StandUp",
-              user: []}
+  users: {
+    byId: {
+      0: {id:0, name: "Pippo", color: "#ff0000", table: null, pos: 0, comp: React.createRef()},
+      1: {id:1, name: "Pluto", color: "#00ff00", table: 1, pos: 1, comp: React.createRef()},
+      2: {id:2, name: "Paperino", color: "#0000ff", table: 1, pos: 0, comp: React.createRef()},
+      3: {id:3, name: "Minnie", color: "#ff00ff", table: 2, pos: 0, comp: React.createRef()},
+      4: {id:4, name: "Gastone", color: "#ffff00", table: null, pos: 1, comp: React.createRef()},
+      5: {id:5, name: "UserZero", color: "#ff8888", table: 0, pos: 0, comp: React.createRef()}
+    },
+    allIds: [0, 1, 2, 3, 4, 5]
+  },
+  tables: {
+    byId: {
+      0: {id: 0, name: "Zer", users_id: [], comp: React.createRef()},
+      1: {id: 1, name: "Uno", users_id: [], comp: React.createRef()},
+      2: {id: 2, name: "Due", users_id: [], comp: React.createRef()},
+      3: {id: 3, name: "Tre", users_id: [], comp: React.createRef()}
+    },
+    allIds: [0, 1, 2, 3]
+  },
+  standup: {
+    users_id: [],
+    comp: React.createRef()
+  }
 };
 
-function copytbl(tbl, copy_el)
-{
-    return Object.keys(tbl).reduce(function(previous, current) {
-        previous[current] = copy_el(tbl[current]);
-        return previous;
-    }, {});
-}
+initialState.users.allIds.map(function(el, id) {
+  let user = this.users.byId[id];
 
-function copy_standup(standup)
-{
-    return { title: standup.title,
-             user: standup.user.slice()
-           }
-}
+  console.log('initalStateUpdate');
+  let table_id = user.table;
+  if (table_id == null) {
+    this.standup.users_id.push(user.id);
+  }
+  else {
+    if (this.tables.byId[table_id].users_id.length < user.pos + 1) {
+      for (var e = this.tables.byId[table_id].users_id.length ;
+           e < user.pos + 1 ; e++) {
+        this.tables.byId[table_id].users_id.push(null);
+      }
+    }
+    this.tables.byId[table_id].users_id[user.pos] = user.id;
+  }
+}, initialState);
 
-function copy_app(app)
-{
-    return {user: copytbl(app.user, copy_user),
-            table: app.table.map((el) => (copy_table(el))),
-            standup: copy_standup(app.standup)};
-}
+// function copytbl(tbl, copy_el)
+// {
+//     return Object.keys(tbl).reduce(function(previous, current) {
+//         previous[current] = copy_el(tbl[current]);
+//         return previous;
+//     }, {});
+// }
+
+// function copy_standup(standup)
+// {
+//     return { title: standup.title,
+//              user: standup.user.slice()
+//            }
+// }
+
+// function copy_app(app)
+// {
+//     return {user: copytbl(app.user, copy_user),
+//             table: app.table.map((el) => (copy_table(el))),
+//             standup: copy_standup(app.standup)};
+// }
 
 const rootReducer = (state = initialState, action) => {
-    let new_state;
-    let table, new_table;
+  let new_state;
+  let table, new_table;
+  
+  console.log('root reducer');
+  console.log(action);
 
-    console.log('root reducer');
-    console.log(action);
-    switch (action.type) {
-    case ADD_USER:
-        new_state = copy_app(state);
-        table = state.table[action.table_idx]
-        new_table = new_state.table[action.table_idx]
-        table_comp_reducer(state, new_state, table, new_table, action);
+  switch (action.type) {
+  case BLACK_FIRST_USER:
+    if (state.tables.byId[action.table_idx].users_id.length <= 0)
+      return state;
 
-        return new_state;
-    case WAKEUP_USER:
-        new_state = copy_app(state);
-        
-        table = state.table[action.table_idx]
-        new_table = new_state.table[action.table_idx]
-
-        // let wakedup_user = table.user[action.index];
-        table_comp_reducer(state, new_state, table, new_table, action);
-
-        console.log("TODO MOVE TO WAKED_UP");
-        return new_state;
-    default:
-        return state;
+    new_state = {
+      users: {byId: {}, allIds: []}, 
+      tables: {byId: state.tables.byId, allIds: state.tables.allIds},
+      standup: {users_id: state.standup.users_id, comp: state.standup.comp}
     }
+
+    state.users.allIds.map(function (idx) {
+      new_state.users.byId[idx] = this.byId[idx];
+      new_state.users.allIds.push(idx)
+    }, state.users);
+
+    let changed_user_id = state.tables.byId[action.table_idx].users_id[0];
+    console.log('CHANGED_USER_ID: ' + changed_user_id);
+    let changed_user = state.users.byId[changed_user_id];
+    
+    new_state.users.byId[changed_user_id] = {
+      id: changed_user.id,
+      name: changed_user.name,
+      color: '#000000',
+      table: changed_user.table,
+      pos: changed_user.pos,
+      comp: changed_user.comp
+    }
+
+    console.log('return new state here');
+    return new_state;
+    // case ADD_USER:
+    //     new_state = copy_app(state);
+    //     table = state.table[action.table_idx]
+    //     new_table = new_state.table[action.table_idx]
+    //     table_comp_reducer(state, new_state, table, new_table, action);
+
+    //     return new_state;
+    // case WAKEUP_USER:
+    //     new_state = copy_app(state);
+
+    //     table = state.table[action.table_idx]
+    //     new_table = new_state.table[action.table_idx]
+
+    //     // let wakedup_user = table.user[action.index];
+    //     table_comp_reducer(state, new_state, table, new_table, action);
+
+    //     console.log("TODO MOVE TO WAKED_UP");
+    //     return new_state;
+  default:
+    return state;
+  }
 };
 
+export const blackFirstUser = (table_idx) => {
+  return () => (bindActionAttrs(blackFirstUser_table(), "table_idx", table_idx));
+}
+
 export default rootReducer;
-export const wakeupUser = (index) => {
-    return (subidx) => (() => { return bindActionAttrs(wakeupUser_table(subidx)(), "table_idx", index); })
-}
-export const addUser = (index) => {
-    return (user) => (bindActionAttrs(addUser_table(user), "table_idx", index));
-}

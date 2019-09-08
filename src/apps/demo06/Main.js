@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { blackFirstUser } from './reducers/Main'
 import './Main.css';
 
 function cl(arg) {
   console.log(arg);
 }
+
+const mapStateToProps = state => { return state; }
+
 
 // SitDown
 // WakeUp
@@ -34,24 +39,32 @@ class Table extends React.PureComponent {
     super(props);
     this.state = {users: props.users,
                   table_users_id: props.table_users_id};
+    this.handleTableClick = this.handleTableClick.bind(this);
+  }
+
+  handleTableClick(event) {
+    event.preventDefault();
+
+    this.props.dispatch(this.props.blackFirstUser());
   }
 
   render () {
     cl('Table render ' + this.props.id);
-    cl(this.state.users);
     var style = {paddingLeft: "32px"};
     return (
         <div style={style}>
         <h2>Table {this.props.name}</h2>
         <div>
         {this.state.table_users_id.map(function (user_id, id) {
-          var user = this.state.users[user_id];
+          var user = this.state.users.byId[user_id];
+          console.log('pre debugger');
+          // debugger;
           return (<User key={user_id} name={user.name}
                   color={user.color}
                   ref={this.props.setUser_gen(user.id)}/>);
         }, this)}
         </div>
-        <button onClick={this.props.handleTableClick}>Clean</button>
+        <button onClick={this.handleTableClick}>Clean</button>
         </div>
     );
   }
@@ -66,64 +79,43 @@ class Standup extends React.PureComponent {
 
   render () {
     cl('Standup render');
-    cl(this.state.standup_users_id.length);
     return (
         <div>
         <h2>Standup</h2>
         <div>
         {this.state.standup_users_id.map(function (user_id) {
-          var user = this.state.users[user_id];
+          var user = this.state.users.byId[user_id];
           return (<User
                   key={user.id} name={user.name} color={user.color}
                   ref={this.props.setUser_gen(user.id)}/>);
         }, this)}
       </div>
-        <button onClick={this.props.handleTableClick}>Clean</button>
+        <button onClick={this.props.blackFirstUser}>Clean</button>
         </div>
     );
   }
 }
 
 
-class Board extends React.Component {
+class ConnectedBoard extends React.Component {
   constructor(props) {
     super(props);
-    this.tables = [{id: 0, name: "Zer", users_id: [], comp: React.createRef()},
-                   {id: 1, name: "Uno", users_id: [], comp: React.createRef()},
-                   {id: 2, name: "Due", users_id: [], comp: React.createRef()},
-                   {id: 3, name: "Tre", users_id: [], comp: React.createRef()}];
-    this.users = [{id:0, name: "Pippo", color: "#ff0000", table: null, pos: 0, comp: React.createRef()},
-                  {id:1, name: "Pluto", color: "#00ff00", table: 1, pos: 1, comp: React.createRef()},
-                  {id:2, name: "Paperino", color: "#0000ff", table: 1, pos: 0, comp: React.createRef()},
-                  {id:3, name: "Minnie", color: "#ff00ff", table: 2, pos: 0, comp: React.createRef()},
-                  {id:4, name: "Gastone", color: "#ffff00", table: null, pos: 1, comp: React.createRef()}
-                 ];
-    this.standup = {users_id: [], comp: React.createRef()};
-        
-    for (var i = 0 ; i < this.users.length ; i++) {
-      var user = this.users[i];
-      
-      var table_id = user.table;
-      if (table_id == null) {
-        this.standup.users_id.push(user.id);
-      }
-      else {
-        if (this.tables[table_id].users_id.length < user.pos + 1) {
-          for (var e = this.tables[table_id].users_id.length ;
-               e < user.pos + 1 ; e++) {
-            this.tables[table_id].users_id.push(null);
-          }
-        }
-        this.tables[table_id].users_id[user.pos] = user.id;
-      }
-    }
 
     this.setUser_gen = this.setUser_gen.bind(this);
-    this.handleTableClick_gen = this.handleTableClick_gen.bind(this);
     this.handleEmptyTableOneClick = this.handleEmptyTableOneClick.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    this.props.users.allIds.map(
+      function (cur_id) {
+        if (this.props.users.byId[cur_id] !== nextProps.users.byId[cur_id]) {
+          console.log(this.props.users.byId[cur_id].color + ' changed !');
+          this.props.users.byId[cur_id].comp.current.setState(
+            nextProps.users.byId[cur_id]
+          )
+        }
+      }, this);
+    cl('shouldBoard update');
     return false;
   }
 
@@ -135,29 +127,19 @@ class Board extends React.Component {
 
       return function(comp) {
         cl('inner setUser_gen ' + comp);
-        _this.users[_user_idx].comp.current = comp;
+        _this.props.users.byId[_user_idx].comp.current = comp;
       }
     }
   }
 
-  handleTableClick_gen(table_idx) {
-    let _this = this;
-    let _table_idx = table_idx;
-
-    return function() {
-      cl("handleTableClick fired (table_id: " + _table_idx + ")");
-      var users = _this.users.filter((item) => (item.table == _table_idx));
-      users.sort((a, b) => (a.pos > b.pos));
-      cl(users);
-      users[0].color = "#000000";
-      users[0].comp.current.setState(
-        function(state, props){
-          cl('updater: color');
-          cl(state);
-          return {...state, color: users[0].color}; });
-    }
-  }
-
+  // handleTableClick(event) {
+  //   event.preventDefault();
+    
+  //   this.props.dispatch(
+  //     this.props.blackFirstUser()
+  //   );
+  // }
+   
   handleEmptyTableOneClick() {
     let table_id = 1;
 
@@ -186,19 +168,25 @@ class Board extends React.Component {
         <div>
         <h1>Board</h1>
         <div style={style}>
-        {this.tables.map(
-          function(table, id) {
-            return (<Table key={id} id={id} name={table.name} users={this.users}
+        {this.props.tables.allIds.map(
+          function(table_id, id) {
+            let table = this.props.tables.byId[table_id];
+            return (<Table key={table_id} id={table_id}
+                    users={this.props.users}
+                    dispatch={this.props.dispatch}
+                    ref={table.comp}
+
+                    name={table.name}
                     table_users_id={table.users_id}
                     setUser_gen={this.setUser_gen()}
-                    handleTableClick={this.handleTableClick_gen(id)}
-                    ref={table.comp}/>);
+                    blackFirstUser={blackFirstUser(table_id)}
+                    />);
           }, this)}
-        <Standup users={this.users}
-                 standup_users_id={this.standup.users_id}
+        <Standup users={this.props.users}
+                 standup_users_id={this.props.standup.users_id}
                  setUser_gen={this.setUser_gen()}
-                 handleTableClick={this.handleTableClick_gen(null)}
-                 ref={this.standup.comp}/>
+                 blackFirstUser={blackFirstUser(null)}
+                 ref={this.props.standup.comp}/>
 
       </div>
       <button onClick={this.handleEmptyTableOneClick}>Empty table one.</button>
@@ -206,6 +194,8 @@ class Board extends React.Component {
     );
   }
 }
+
+const Board = connect(mapStateToProps)(ConnectedBoard);
 
 
 class App extends React.PureComponent {
@@ -216,7 +206,6 @@ class App extends React.PureComponent {
                 <Board/>
                 </React.Fragment>
         );
-
     }
 }
 

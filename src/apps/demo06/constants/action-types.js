@@ -1,0 +1,1 @@
+export const BLACK_FIRST_USER = "BLACK_FIRST_USER";
