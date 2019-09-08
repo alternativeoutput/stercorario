@@ -212,7 +212,7 @@ class App extends React.PureComponent {
     render() {
         return (
                 <React.Fragment>
-                <div><h1>Demo05</h1></div>
+                <div><h1>Demo06</h1></div>
                 <Board/>
                 </React.Fragment>
         );

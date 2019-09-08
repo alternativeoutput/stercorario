@@ -26,6 +26,7 @@ module.exports = (env, argv) => {
         demo03: './src/apps/demo03/indexMain.js',
         demo04: './src/apps/demo04/indexMain.js',
         demo05: './src/apps/demo05/indexMain.js',
+        demo06: './src/apps/demo06/indexMain.js',
     },
     mode: 'production',
     output: {
@@ -133,9 +134,15 @@ module.exports = (env, argv) => {
       }),
       new HtmlWebPackPlugin({
         template: "./public/demo.html",
-        filename: "./index.html",
+        filename: "./demo05.html",
         favicon: "./public/favicon.ico",
         chunks: ['demo05']
+      }),
+      new HtmlWebPackPlugin({
+        template: "./public/demo.html",
+        filename: "./index.html",
+        favicon: "./public/favicon.ico",
+        chunks: ['demo06']
       }),
       new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
         PUBLIC_URL: publicUrl
