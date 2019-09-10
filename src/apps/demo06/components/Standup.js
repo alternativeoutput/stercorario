@@ -25,7 +25,7 @@ class Standup extends React.PureComponent {
         {this.state.standup_users_id.map(function (user_id) {
           var user = this.state.users.byId[user_id];
           return (<User
-                  key={user.id} name={user.name} color={user.color}
+                  key={user.id} id={user.id} name={user.name} color={user.color}
                   ref={this.props.setUser_gen(user.id)}/>);
         }, this)}
       </div>

@@ -27,7 +27,7 @@ class Table extends PureComponent {
           var user = this.state.users.byId[user_id];
           console.log('pre debugger');
           // debugger;
-          return (<User key={user_id} name={user.name}
+          return (<User key={user_id} id={user_id} name={user.name}
                   color={user.color}
                   ref={this.props.setUser_gen(user.id)}/>);
         }, this)}

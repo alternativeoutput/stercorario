@@ -93,7 +93,7 @@ const rootReducer = (state = initialState, action) => {
     new_state = {
       users: {byId: {}, allIds: []}, 
       tables: {byId: state.tables.byId, allIds: state.tables.allIds},
-      standup: {users_id: state.standup.users_id, comp: state.standup.comp}
+      standup: {users_id: state.standup.users_id}
     }
 
     state.users.allIds.map(function (idx) {
@@ -116,30 +116,12 @@ const rootReducer = (state = initialState, action) => {
       name: changed_user.name,
       color: '#000000',
       table: changed_user.table,
-      pos: changed_user.pos,
-      comp: changed_user.comp
+      pos: changed_user.pos
     }
 
     console.log('return new state here');
     return new_state;
-    // case ADD_USER:
-    //     new_state = copy_app(state);
-    //     table = state.table[action.table_idx]
-    //     new_table = new_state.table[action.table_idx]
-    //     table_comp_reducer(state, new_state, table, new_table, action);
 
-    //     return new_state;
-    // case WAKEUP_USER:
-    //     new_state = copy_app(state);
-
-    //     table = state.table[action.table_idx]
-    //     new_table = new_state.table[action.table_idx]
-
-    //     // let wakedup_user = table.user[action.index];
-    //     table_comp_reducer(state, new_state, table, new_table, action);
-
-    //     console.log("TODO MOVE TO WAKED_UP");
-    //     return new_state;
   default:
     return state;
   }

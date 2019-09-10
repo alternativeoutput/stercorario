@@ -24,16 +24,6 @@ class ConnectedBoard extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    this.props.users.allIds.map(
-      function (cur_id) {
-        if (this.props.users.byId[cur_id] !== nextProps.users.byId[cur_id]) {
-          console.log(this.props.users.byId[cur_id].color + ' changed !');
-          this.props.users.byId[cur_id].comp.current.setState(
-            nextProps.users.byId[cur_id]
-          )
-        }
-      }, this);
-    cl('shouldBoard update');
     return false;
   }
 
