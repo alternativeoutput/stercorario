@@ -81,43 +81,27 @@ const rootReducer = (state = initialState, action) => {
 
   switch (action.type) {
   case BLACK_FIRST_USER:
+    let changed_user_id;
+
     if (action.table_idx !== null) {
       if (state.tables.byId[action.table_idx].users_id.length <= 0)
         return state;
+      changed_user_id = state.tables.byId[action.table_idx].users_id[0];
     }
     else {
       if (state.standup.users_id.length <= 0)
         return state;
+      changed_user_id = state.standup.users_id[0];
     }
 
     new_state = {
-      users: {byId: {}, allIds: []}, 
-      tables: {byId: state.tables.byId, allIds: state.tables.allIds},
-      standup: {users_id: state.standup.users_id}
+      ...state
     }
 
-    state.users.allIds.map(function (idx) {
-      new_state.users.byId[idx] = this.byId[idx];
-      new_state.users.allIds.push(idx)
-    }, state.users);
-
-    let changed_user_id;
-    if (action.table_idx !== null) {
-      changed_user_id = state.tables.byId[action.table_idx].users_id[0];
-    }
-    else {
-      changed_user_id = state.standup.users_id[0];
-    }
     console.log('CHANGED_USER_ID: ' + changed_user_id);
     let changed_user = state.users.byId[changed_user_id];
     
-    new_state.users.byId[changed_user_id] = {
-      id: changed_user.id,
-      name: changed_user.name,
-      color: '#000000',
-      table: changed_user.table,
-      pos: changed_user.pos
-    }
+    new_state.users.byId[changed_user_id] = {...changed_user, color: '#000000'}
 
     console.log('return new state here');
     return new_state;
