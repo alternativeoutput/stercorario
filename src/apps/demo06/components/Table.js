@@ -25,11 +25,9 @@ class Table extends PureComponent {
         <div>
         {this.state.table_users_id.map(function (user_id, id) {
           var user = this.state.users.byId[user_id];
-          console.log('pre debugger');
-          // debugger;
           return (<User key={user_id} id={user_id} name={user.name}
                   color={user.color}
-                  ref={this.props.setUser_gen(user.id)}/>);
+                  />);
         }, this)}
         </div>
         <button onClick={this.handleTableClick}>Clean</button>

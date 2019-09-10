@@ -7,21 +7,21 @@ import React from 'react';
 const initialState = {
   users: {
     byId: {
-      0: {id:0, name: "Pippo", color: "#ff0000", table: null, pos: 0, comp: React.createRef()},
-      1: {id:1, name: "Pluto", color: "#00ff00", table: 1, pos: 1, comp: React.createRef()},
-      2: {id:2, name: "Paperino", color: "#0000ff", table: 1, pos: 0, comp: React.createRef()},
-      3: {id:3, name: "Minnie", color: "#ff00ff", table: 2, pos: 0, comp: React.createRef()},
-      4: {id:4, name: "Gastone", color: "#ffff00", table: null, pos: 1, comp: React.createRef()},
-      5: {id:5, name: "UserZero", color: "#ff8888", table: 0, pos: 0, comp: React.createRef()}
+      0: {id:0, name: "Pippo", color: "#ff0000", table: null, pos: 0},
+      1: {id:1, name: "Pluto", color: "#00ff00", table: 1, pos: 1},
+      2: {id:2, name: "Paperino", color: "#0000ff", table: 1, pos: 0},
+      3: {id:3, name: "Minnie", color: "#ff00ff", table: 2, pos: 0},
+      4: {id:4, name: "Gastone", color: "#ffff00", table: null, pos: 1},
+      5: {id:5, name: "UserZero", color: "#ff8888", table: 0, pos: 0}
     },
     allIds: [0, 1, 2, 3, 4, 5]
   },
   tables: {
     byId: {
-      0: {id: 0, name: "Zer", users_id: [], comp: React.createRef()},
-      1: {id: 1, name: "Uno", users_id: [], comp: React.createRef()},
-      2: {id: 2, name: "Due", users_id: [], comp: React.createRef()},
-      3: {id: 3, name: "Tre", users_id: [], comp: React.createRef()}
+      0: {id: 0, name: "Zer", users_id: []},
+      1: {id: 1, name: "Uno", users_id: []},
+      2: {id: 2, name: "Due", users_id: []},
+      3: {id: 3, name: "Tre", users_id: []}
     },
     allIds: [0, 1, 2, 3]
   },

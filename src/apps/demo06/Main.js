@@ -19,25 +19,11 @@ class ConnectedBoard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.setUser_gen = this.setUser_gen.bind(this);
     this.handleEmptyTableOneClick = this.handleEmptyTableOneClick.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return false;
-  }
-
-  setUser_gen() {
-    let _this = this;
-
-    return function(user_idx) {
-      let _user_idx = user_idx;
-
-      return function(comp) {
-        cl('inner setUser_gen ' + comp);
-        _this.props.users.byId[_user_idx].comp.current = comp;
-      }
-    }
   }
 
   // handleTableClick(event) {
@@ -62,11 +48,6 @@ class ConnectedBoard extends React.Component {
         this.users[user_id].table = null;
       }, this);
     standup_users_id = this.standup.users_id.slice();
-
-    this.tables[table_id].comp.current.setState((state, props) => (
-      {table_users_id: table_users_id}));
-    this.standup.comp.current.setState((state, props) => (
-      {standup_users_id: standup_users_id}));
   }
 
   render () {
@@ -82,20 +63,17 @@ class ConnectedBoard extends React.Component {
             return (<Table key={table_id} id={table_id}
                     users={this.props.users}
                     dispatch={this.props.dispatch}
-                    ref={table.comp}
 
                     name={table.name}
                     table_users_id={table.users_id}
-                    setUser_gen={this.setUser_gen()}
                     blackFirstUser={blackFirstUser(table_id)}
                     />);
           }, this)}
         <Standup users={this.props.users}
                  dispatch={this.props.dispatch}
                  standup_users_id={this.props.standup.users_id}
-                 setUser_gen={this.setUser_gen()}
                  blackFirstUser={blackFirstUser(null)}
-                 ref={this.props.standup.comp}/>
+        />
 
       </div>
       <button onClick={this.handleEmptyTableOneClick}>Empty table one.</button>

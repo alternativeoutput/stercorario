@@ -26,7 +26,7 @@ class Standup extends React.PureComponent {
           var user = this.state.users.byId[user_id];
           return (<User
                   key={user.id} id={user.id} name={user.name} color={user.color}
-                  ref={this.props.setUser_gen(user.id)}/>);
+                  />);
         }, this)}
       </div>
         <button onClick={this.handleTableClick}>Clean</button>
