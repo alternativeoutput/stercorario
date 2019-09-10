@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { blackFirstUser } from './reducers/Main'
+import Table from './components/Table'
+import Standup from './components/Standup'
 import './Main.css';
-
-function cl(arg) {
-  console.log(arg);
-}
+import { cl } from '../../core/common/Utils'
 
 const mapStateToProps = state => { return state; }
 
@@ -14,87 +13,6 @@ const mapStateToProps = state => { return state; }
 // WakeUp
 // ChangeColor
 // Input: table ID
-
-class User extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {color: props.color,
-                  name: props.name };
-  }
-
-  render () {
-    cl('User render');
-    var bgcol = { color: this.state.color };
-    var style = {paddingLeft: "32px"};
-    return (
-        <div style={style}>
-        <h3 style={bgcol}>User: {this.state.name}</h3>
-        </div>
-    );
-  }
-}
-
-class Table extends React.PureComponent {
-  constructor (props) {
-    super(props);
-    this.state = {users: props.users,
-                  table_users_id: props.table_users_id};
-    this.handleTableClick = this.handleTableClick.bind(this);
-  }
-
-  handleTableClick(event) {
-    event.preventDefault();
-
-    this.props.dispatch(this.props.blackFirstUser());
-  }
-
-  render () {
-    cl('Table render ' + this.props.id);
-    var style = {paddingLeft: "32px"};
-    return (
-        <div style={style}>
-        <h2>Table {this.props.name}</h2>
-        <div>
-        {this.state.table_users_id.map(function (user_id, id) {
-          var user = this.state.users.byId[user_id];
-          console.log('pre debugger');
-          // debugger;
-          return (<User key={user_id} name={user.name}
-                  color={user.color}
-                  ref={this.props.setUser_gen(user.id)}/>);
-        }, this)}
-        </div>
-        <button onClick={this.handleTableClick}>Clean</button>
-        </div>
-    );
-  }
-}
-
-class Standup extends React.PureComponent {
-  constructor (props) {
-    super(props);
-    this.state = {users: props.users,
-                  standup_users_id: props.standup_users_id};
-  }
-
-  render () {
-    cl('Standup render');
-    return (
-        <div>
-        <h2>Standup</h2>
-        <div>
-        {this.state.standup_users_id.map(function (user_id) {
-          var user = this.state.users.byId[user_id];
-          return (<User
-                  key={user.id} name={user.name} color={user.color}
-                  ref={this.props.setUser_gen(user.id)}/>);
-        }, this)}
-      </div>
-        <button onClick={this.props.blackFirstUser}>Clean</button>
-        </div>
-    );
-  }
-}
 
 
 class ConnectedBoard extends React.Component {
@@ -183,6 +101,7 @@ class ConnectedBoard extends React.Component {
                     />);
           }, this)}
         <Standup users={this.props.users}
+                 dispatch={this.props.dispatch}
                  standup_users_id={this.props.standup.users_id}
                  setUser_gen={this.setUser_gen()}
                  blackFirstUser={blackFirstUser(null)}
