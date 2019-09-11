@@ -4,12 +4,9 @@ import { cl } from 'core/common/Utils';
 
 function makeMapStateToProps(state_gen, props_gen) {
   function mapStateToProps(state, props) {
-    // debugger;
-    let user = state.users.byId[props_gen.id];
+    let user = state_gen.users.byId[props_gen.id];
     return {
-      id: user.id,
-      name: user.name,
-      color: user.color
+      ...user
     }
   }
   return mapStateToProps;
@@ -35,6 +32,6 @@ class ConnectedUser extends React.Component {
   }
 }
 
-const User = connect(makeMapStateToProps, null, null, { forwardRef: true })(ConnectedUser);
+const User = connect(makeMapStateToProps)(ConnectedUser);
 
 export default User;

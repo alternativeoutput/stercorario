@@ -1,8 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import User from './User';
 import { cl } from 'core/common/Utils';
 
-class Standup extends React.PureComponent {
+function mapStateToProps(state, props) {
+  return {
+      ...state.standup
+  }
+}
+
+class ConnectedStandup extends React.Component {
   constructor (props) {
     super(props);
     this.state = {users: props.users,
@@ -34,5 +41,7 @@ class Standup extends React.PureComponent {
     );
   }
 }
+
+const Standup = connect(mapStateToProps)(ConnectedStandup);
 
 export default Standup;

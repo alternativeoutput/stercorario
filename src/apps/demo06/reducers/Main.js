@@ -1,8 +1,9 @@
-// src/js/reducers/index.js
-import { BLACK_FIRST_USER } from '../constants/action-types';
+import { BLACK_FIRST_USER, EMPTY_TABLE_ONE} from '../constants/action-types';
 import { bindActionAttrs } from '../../../core/store/bindIndexToActionCreators';
 import { blackFirstUser as blackFirstUser_table } from './Table';
 import React from 'react';
+
+import { cl } from 'core/common/Utils';
 
 const initialState = {
   users: {
@@ -34,7 +35,7 @@ const initialState = {
 initialState.users.allIds.map(function(el, id) {
   let user = this.users.byId[id];
 
-  console.log('initalStateUpdate');
+  cl('initalStateUpdate');
   let table_id = user.table;
   if (table_id == null) {
     this.standup.users_id.push(user.id);
@@ -50,36 +51,32 @@ initialState.users.allIds.map(function(el, id) {
   }
 }, initialState);
 
-// function copytbl(tbl, copy_el)
-// {
-//     return Object.keys(tbl).reduce(function(previous, current) {
-//         previous[current] = copy_el(tbl[current]);
-//         return previous;
-//     }, {});
-// }
-
-// function copy_standup(standup)
-// {
-//     return { title: standup.title,
-//              user: standup.user.slice()
-//            }
-// }
-
-// function copy_app(app)
-// {
-//     return {user: copytbl(app.user, copy_user),
-//             table: app.table.map((el) => (copy_table(el))),
-//             standup: copy_standup(app.standup)};
-// }
-
 const rootReducer = (state = initialState, action) => {
   let new_state;
   let table, new_table;
   
-  console.log('root reducer');
-  console.log(action);
+  cl('root reducer');
+  cl(action);
 
   switch (action.type) {
+
+  case EMPTY_TABLE_ONE:
+    new_state = {
+        ...state,
+      standup: {...state.standup}
+    }
+    let table_id = 1
+    new_state.tables.byId[table_id].users_id.map(function (user_id) {
+      this.users.byId[user_id] = { ...state.users.byId[user_id] };
+      this.standup.users_id.push(user_id);
+      this.users.byId[user_id].table = null;
+    }, new_state);
+    new_state.standup.users_id = new_state.standup.users_id.slice();
+    new_state.tables.byId[table_id].users_id = [];
+    cl(new_state.standup.users_id);
+    return new_state;
+    break;
+
   case BLACK_FIRST_USER:
     let changed_user_id;
 
@@ -98,12 +95,12 @@ const rootReducer = (state = initialState, action) => {
       ...state
     }
 
-    console.log('CHANGED_USER_ID: ' + changed_user_id);
+    cl('CHANGED_USER_ID: ' + changed_user_id);
     let changed_user = state.users.byId[changed_user_id];
     
     new_state.users.byId[changed_user_id] = {...changed_user, color: '#000000'}
 
-    console.log('return new state here');
+    cl('return new state here');
     return new_state;
 
   default:
@@ -114,5 +111,7 @@ const rootReducer = (state = initialState, action) => {
 export const blackFirstUser = (table_idx) => {
   return () => (bindActionAttrs(blackFirstUser_table(), "table_idx", table_idx));
 }
+
+export const emptyTableOne = () => ({type: EMPTY_TABLE_ONE});
 
 export default rootReducer;

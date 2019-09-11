@@ -1,1 +1,2 @@
 export const BLACK_FIRST_USER = "BLACK_FIRST_USER";
+export const EMPTY_TABLE_ONE = "EMPTY_TABLE_ONE";

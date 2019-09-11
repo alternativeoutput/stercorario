@@ -1,8 +1,19 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import User from './User';
 import { cl } from 'core/common/Utils';
 
-class Table extends PureComponent {
+function makeMapStateToProps(state_gen, props_gen) {
+  function mapStateToProps(state, props) {
+    let user = state_gen.tables.byId[props_gen.id];
+    return {
+      ...user
+    }
+  }
+  return mapStateToProps;
+}
+
+class ConnectedTable extends Component {
   constructor (props) {
     super(props);
     this.state = {users: props.users,
@@ -23,7 +34,7 @@ class Table extends PureComponent {
         <div style={style}>
         <h2>Table {this.props.name}</h2>
         <div>
-        {this.state.table_users_id.map(function (user_id, id) {
+        {this.props.users_id.map(function (user_id, id) {
           var user = this.state.users.byId[user_id];
           return (<User key={user_id} id={user_id} name={user.name}
                   color={user.color}
@@ -35,5 +46,7 @@ class Table extends PureComponent {
     );
   }
 }
+
+const Table = connect(makeMapStateToProps)(ConnectedTable);
 
 export default Table;

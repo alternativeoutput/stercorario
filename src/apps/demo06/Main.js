@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { blackFirstUser } from './reducers/Main'
+import { blackFirstUser, emptyTableOne } from './reducers/Main'
 import Table from './components/Table'
 import Standup from './components/Standup'
 import './Main.css';
@@ -26,28 +26,11 @@ class ConnectedBoard extends React.Component {
     return false;
   }
 
-  // handleTableClick(event) {
-  //   event.preventDefault();
-    
-  //   this.props.dispatch(
-  //     this.props.blackFirstUser()
-  //   );
-  // }
-   
-  handleEmptyTableOneClick() {
+  handleEmptyTableOneClick(event) {
     let table_id = 1;
 
-    cl('EmptyOne fired');
-    var table_users_id = [];
-    var standup_users_id = [];
-
-    this.tables[table_id].users_id.map(
-      function (user_id) {
-        cl('mapped ' + user_id);
-        this.standup.users_id.push(user_id);
-        this.users[user_id].table = null;
-      }, this);
-    standup_users_id = this.standup.users_id.slice();
+    event.preventDefault();
+    this.props.dispatch(emptyTableOne());
   }
 
   render () {
