@@ -109,7 +109,7 @@ const rootReducer = (state = initialState, action) => {
 };
 
 export const blackFirstUser = (table_idx) => {
-  return () => (bindActionAttrs(blackFirstUser_table(), "table_idx", table_idx));
+  return bindActionAttrs(blackFirstUser_table(), "table_idx", table_idx);
 }
 
 export const emptyTableOne = () => ({type: EMPTY_TABLE_ONE});

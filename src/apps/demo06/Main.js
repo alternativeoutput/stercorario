@@ -8,6 +8,13 @@ import { cl } from '../../core/common/Utils'
 
 const mapStateToProps = state => { return state; }
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    emptyTableOne: () => {
+      dispatch(emptyTableOne())
+    }
+  }
+}
 
 // SitDown
 // WakeUp
@@ -16,23 +23,6 @@ const mapStateToProps = state => { return state; }
 
 
 class ConnectedBoard extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleEmptyTableOneClick = this.handleEmptyTableOneClick.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return false;
-  }
-
-  handleEmptyTableOneClick(event) {
-    let table_id = 1;
-
-    event.preventDefault();
-    this.props.dispatch(emptyTableOne());
-  }
-
   render () {
     cl("Board render");
     var style = {paddingLeft: "32px"};
@@ -49,7 +39,6 @@ class ConnectedBoard extends React.Component {
 
                     name={table.name}
                     table_users_id={table.users_id}
-                    blackFirstUser={blackFirstUser(table_id)}
                     />);
           }, this)}
         <Standup users={this.props.users}
@@ -59,13 +48,14 @@ class ConnectedBoard extends React.Component {
         />
 
       </div>
-      <button onClick={this.handleEmptyTableOneClick}>Empty table one.</button>
+      <button onClick={this.props.emptyTableOne}>Empty table one.</button>
       </div>
     );
   }
 }
+//                     blackFirstUser={blackFirstUser(table_id)}
 
-const Board = connect(mapStateToProps)(ConnectedBoard);
+const Board = connect(mapStateToProps, mapDispatchToProps)(ConnectedBoard);
 
 
 class App extends React.PureComponent {

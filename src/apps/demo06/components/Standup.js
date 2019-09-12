@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import User from './User';
+import { blackFirstUser } from '../reducers/Main'
 import { cl } from 'core/common/Utils';
 
 function mapStateToProps(state, props) {
@@ -8,6 +9,15 @@ function mapStateToProps(state, props) {
       ...state.standup
   }
 }
+
+const mapDispatchToProps = (dispatch_gen, props_gen) => {
+  return {
+    blackFirstUser: () => {
+      dispatch_gen(blackFirstUser(null))
+    }
+  }
+}
+
 
 class ConnectedStandup extends React.Component {
   constructor (props) {
@@ -36,12 +46,12 @@ class ConnectedStandup extends React.Component {
                   />);
         }, this)}
       </div>
-        <button onClick={this.handleTableClick}>Clean</button>
+        <button onClick={this.props.blackFirstUser}>Clean</button>
         </div>
     );
   }
 }
 
-const Standup = connect(mapStateToProps)(ConnectedStandup);
+const Standup = connect(mapStateToProps, mapDispatchToProps)(ConnectedStandup);
 
 export default Standup;

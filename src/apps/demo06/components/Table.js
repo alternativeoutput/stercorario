@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { blackFirstUser } from '../reducers/Main'
 import User from './User';
 import { cl } from 'core/common/Utils';
+
+const mapDispatchToProps = (dispatch_gen, props_gen) => {
+  return {
+    blackFirstUser: () => {
+      dispatch_gen(blackFirstUser(props_gen.id))
+    }
+  }
+}
+
 
 function makeMapStateToProps(state_gen, props_gen) {
   function mapStateToProps(state, props) {
@@ -18,13 +28,6 @@ class ConnectedTable extends Component {
     super(props);
     this.state = {users: props.users,
                   table_users_id: props.table_users_id};
-    this.handleTableClick = this.handleTableClick.bind(this);
-  }
-
-  handleTableClick(event) {
-    event.preventDefault();
-
-    this.props.dispatch(this.props.blackFirstUser());
   }
 
   render () {
@@ -41,12 +44,12 @@ class ConnectedTable extends Component {
                   />);
         }, this)}
         </div>
-        <button onClick={this.handleTableClick}>Clean</button>
+        <button onClick={this.props.blackFirstUser}>Clean</button>
         </div>
     );
   }
 }
 
-const Table = connect(makeMapStateToProps)(ConnectedTable);
+const Table = connect(makeMapStateToProps, mapDispatchToProps)(ConnectedTable);
 
 export default Table;
