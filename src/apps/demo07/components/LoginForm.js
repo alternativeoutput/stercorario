@@ -23,7 +23,7 @@ class LoginForm extends Component {
       <div>
         <label>User</label>
         <div>
-          <input name="user" type="text" placeholder="Username."/>
+        <input name="user" type="text" placeholder="Username."/>
         </div>
       </div>
       <div>
@@ -33,7 +33,7 @@ class LoginForm extends Component {
         </div>
       </div>
       <div>
-        <button type="submit">Submit</button>
+        <button type="submit">Login</button>
       </div>
         </form>
     );

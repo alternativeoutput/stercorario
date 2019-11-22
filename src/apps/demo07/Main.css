@@ -34,3 +34,7 @@ div.Table {
     margin: 8px;
     padding: 8px;
 }
+
+#chat-log {
+    font-size: 24px;
+}

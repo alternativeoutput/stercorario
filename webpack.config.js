@@ -3,6 +3,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ManifestPlugin = require('webpack-manifest-plugin');
+const webpack = require('webpack');
 
 // const commonsPlugin = new webpack.optimize.CommonsChunkPlugin(
 //     'commons',  // Just name it
@@ -104,6 +105,15 @@ module.exports = (env, argv) => {
     devServer: {
       publicPath: "/",
       contentBase: "./public",
+      proxy: [{
+        context: ['/chat'],
+        target: 'http://localhost:9000',
+      },
+      {
+        context: ['/ws'],
+        target: 'http://localhost:9000',
+        ws: true,
+      }],
       hot: true
     },
     plugins: [
@@ -113,6 +123,12 @@ module.exports = (env, argv) => {
       //   favicon: "./public/favicon.ico",
       //   chunks: ['main']
       // }),
+
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery"
+      }),
       new HtmlWebPackPlugin({
         template: "./public/demo.html",
         filename: "./demo01.html",
