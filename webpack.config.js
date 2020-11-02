@@ -16,7 +16,7 @@ const path = require('path');
 module.exports = (env, argv) => {
   var publicUrl = '';
   if (argv.mode === 'production') {
-    var publicUrl = '/~nastasi/exspa';
+    var publicUrl = '/~nastasi/stercorario';
   }
 
   return {
@@ -29,6 +29,8 @@ module.exports = (env, argv) => {
         demo05: './src/apps/demo05/indexMain.js',
         demo06: './src/apps/demo06/indexMain.js',
         demo07: './src/apps/demo07/indexMain.js',
+        stercorario: './src/apps/stercorario/indexMain.js',
+        hubble: './src/apps/hubble/indexMain.js',
     },
     mode: 'production',
     output: {
@@ -167,9 +169,21 @@ module.exports = (env, argv) => {
       }),
       new HtmlWebPackPlugin({
         template: "./public/demo.html",
-        filename: "./index.html",
+        filename: "./demo07.html",
         favicon: "./public/favicon.ico",
         chunks: ['demo07']
+      }),
+      new HtmlWebPackPlugin({
+        template: "./public/hubble.html",
+        filename: "./hubble.html",
+        favicon: "./public/favicon.ico",
+        chunks: ['hubble']
+      }),
+      new HtmlWebPackPlugin({
+        template: "./public/stercorario.html",
+        filename: "./index.html",
+        favicon: "./public/favicon.ico",
+        chunks: ['stercorario']
       }),
       new InterpolateHtmlPlugin(HtmlWebPackPlugin, {
         PUBLIC_URL: publicUrl

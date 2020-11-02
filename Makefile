@@ -1,11 +1,11 @@
 # virtualenv
 
-PROJ = exspa
+PROJ = stercorario
 
 ALL: build
 
 timestamps/virtualenv.tstamp:
-	virtualenv -p /usr/bin/python3.5 ./$(PROJ)-venv
+	virtualenv -p /usr/bin/python3 ./$(PROJ)-venv
 	touch $@
 
 virtualenv: timestamps/virtualenv.tstamp
@@ -51,12 +51,12 @@ env:
 	@echo ". ./$(PROJ)-venv/bin/activate"
 
 build:
-	. ./$(PROJ)-venv/bin/activate && yarn build
+	. "./$(PROJ)-venv/bin/activate" && yarn build
 
 start:
-	. ./$(PROJ)-venv/bin/activate && yarn start
+	. "./$(PROJ)-venv/bin/activate" && env | tee -a wrong.txt && yarn start
 
 check:
-	. ./$(PROJ)-venv/bin/activate && python --version
+	. "./$(PROJ)-venv/bin/activate" && python --version
 
 .PHONY: install_reqs clean destroy virtualenv install_dev_reqs node yarn_check create recreate env build start check

@@ -1,0 +1,72 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 80px;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+div.Table {
+    border: 1px solid gray;
+    display: inline-block;
+    margin: 8px;
+    padding: 8px;
+}
+
+#chat-log {
+    font-size: 24px;
+}
+
+table.ster_board {
+    border-collapse: collapse;
+}
+
+td.ster_cell_2p {
+    background-image: url(./img/c2p_48.png);
+}
+
+td.ster_cell_3p {
+    background-image: url(./img/c3p_48.png);
+}
+
+td.ster_cell_3l {
+    background-image: url(./img/c3l_48.png);
+}
+
+td.ster_cell_2l {
+    background-image: url(./img/c2l_48.png);
+}
+
+td.ster_cell_sterco {
+    background-image: url(./img/csterco_48.png);
+}
+
+td.ster_cell {
+    width: 48px;
+    height: 48px;
+    padding: 0px;
+    background-color: #b0a348;
+    border: 2px solid black;
+}
